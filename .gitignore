@@ -1,11 +1,8 @@
 *.json
 *.pyc
-*.log
-docs/_build
-*.buildinfo
-*.mp3
-*.m4a
-*.wav
-*.png
-*.jpg
-*.flac
+__pycache__
+data
+!data/trivia/*
+!data/audio/playlists/*
+*.exe
+*.dll
