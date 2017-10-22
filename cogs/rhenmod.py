@@ -16,15 +16,17 @@ class RhenMod:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
-    async def sayHi(self):
+    @commands.command(pass_context=True)
+    async def sayHi(self, ctx):
         """Lea! ...why?"""
+        await self.bot.delete_message(ctx.message)
         await self.bot.say('Hi! Lea!')
 
 
-    @commands.command()
-    async def say(self, str):
+    @commands.command(pass_context=True)
+    async def say(self, ctx, str):
         """Repeats a text, that's about it, really"""
+        await self.bot.delete_message(ctx.message)
         await self.bot.say(str)
 
 def setup(bot):

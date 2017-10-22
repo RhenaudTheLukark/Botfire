@@ -374,7 +374,7 @@ def initialize(bot_class=Bot, formatter_class=Formatter):
             log += "".join(traceback.format_exception(type(error), error,
                                                       error.__traceback__))
             bot._last_exception = log
-            await ctx.bot.send_message(channel, inline(message))
+            await ctx.bot.send_message(channel, inline(log))
         elif isinstance(error, commands.CommandNotFound):
             pass
         elif isinstance(error, commands.CheckFailure):

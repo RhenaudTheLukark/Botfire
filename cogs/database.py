@@ -38,7 +38,7 @@ class Database:
         await self.bot.say(result + "Success!")
 
     @commands.command()
-    @checks.is_owner()
+    @checks.mod_or_permissions(administrator=True)
     async def evalSqlOw(self, req):
         result = ""
         c = self.conn.cursor()
@@ -48,13 +48,19 @@ class Database:
         await self.bot.say(result + "Success!")
 
     @commands.command()
-    @checks.is_owner()
+    @checks.mod_or_permissions(administrator=True)
     async def registerUsers(self):
         c = self.conn.cursor()
         for user in self.bot.get_all_members():
             temp = str(user.name) + "#" + str(user.id)
-            c.execute('INSERT INTO Users(ID, Name) VALUES (' + user.id + ', "' + user.name + '")')
+            count = 0
+            try:
+            	c.execute('INSERT INTO Users(ID, Name) VALUES (' + user.id + ', "' + user.name + '")')
+            	count = count + 1
+            except:
+            	next
         self.conn.commit()
+        await self.bot.say("Success: " + str(count) + " users added!")
 
 def setup(bot):
     bot.add_cog(Database(bot))
