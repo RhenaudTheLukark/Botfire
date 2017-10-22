@@ -20,7 +20,7 @@ class Database:
     def __init__(self, bot):
         self.bot = bot
         print("Trying to open SQLite database...")
-        self.conn = sqlite3.connect('botfire.sqlite')
+        self.conn = sqlite3.connect('data/botfire.sqlite')
         print("The connection to the database is successful!")
 
     @commands.command()
