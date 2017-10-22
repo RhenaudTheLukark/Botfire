@@ -24,25 +24,25 @@ class Database:
         print("The connection to the database is successful!")
 
     @commands.command()
-    async def evalSql(self, str):
+    async def evalSql(self, req):
         """Permits to do some SQL shenans (SELECT only)."""
-        if str[:7] != 'SELECT ':
+        if req[:7] != 'SELECT ':
         	await self.bot.say('Your SQL command has to be a SELECT and nothing else!')
         	return
 
         result = ""
         c = self.conn.cursor()
-        for row in c.execute(str):
-            result = result + row + '\n'
+        for row in c.execute(req):
+            result += str(row) + "\n"
 
         await self.bot.say(result + "Success!")
 
     @commands.command()
     @checks.is_owner()
-    async def evalSqlOw(self, str):
+    async def evalSqlOw(self, req):
         result = ""
         c = self.conn.cursor()
-        for row in c.execute(str):
+        for row in c.execute(req):
             result = str(result) + str(row) + str('\n')
 
         await self.bot.say(result + "Success!")
