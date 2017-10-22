@@ -37,8 +37,7 @@ from io import TextIOWrapper
 #                 https://github.com/Rapptz/RoboDanny/
 #
 
-description = "Red - A multifunction Discord bot by Twentysix"
-
+description = "Botfire - A multifunction Discord bot for The Campfire"
 
 class Bot(commands.Bot):
     def __init__(self, *args, **kwargs):
@@ -302,7 +301,7 @@ def initialize(bot_class=Bot, formatter_class=Formatter):
         owner = await set_bot_owner()
 
         print("-----------------")
-        print("Red - Discord Bot")
+        print("Botfire - Discord Bot")
         print("-----------------")
         print(str(bot.user))
         print("\nConnected to:")
@@ -405,7 +404,7 @@ def interactive_setup(settings):
     first_run = settings.bot_settings == settings.default_settings
 
     if first_run:
-        print("Red - First run configuration\n")
+        print("Botfire - First run configuration\n")
         print("If you haven't already, create a new account:\n"
               "https://twentysix26.github.io/Red-Docs/red_guide_bot_accounts/"
               "#creating-a-new-bot-account")
@@ -534,7 +533,7 @@ def set_cog(cog, value):  # TODO: move this out of red.py
 
 def load_cogs(bot):
     defaults = ("alias", "audio", "customcom", "downloader", "economy",
-                "general", "image", "mod", "streams", "trivia")
+                "general", "image", "mod", "streams", "trivia", "rhenmod", "database")
 
     try:
         registry = dataIO.load_json("data/red/cogs.json")
