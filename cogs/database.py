@@ -51,16 +51,15 @@ class Database:
     @checks.mod_or_permissions(administrator=True)
     async def registerUsers(self):
         c = self.conn.cursor()
+        self.count = 0
         for user in self.bot.get_all_members():
-            temp = str(user.name) + "#" + str(user.id)
-            count = 0
             try:
-            	c.execute('INSERT INTO Users(ID, Name) VALUES (' + user.id + ', "' + user.name + '")')
-            	count = count + 1
+            	c.execute('INSERT INTO Users(ID) VALUES (' + user.id + ')')
+            	self.count = self.count + 1
             except:
             	next
         self.conn.commit()
-        await self.bot.say("Success: " + str(count) + " users added!")
+        await self.bot.say("Success: " + str(self.count) + " users added!")
 
 def setup(bot):
     bot.add_cog(Database(bot))
