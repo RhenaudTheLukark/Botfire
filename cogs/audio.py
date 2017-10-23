@@ -2013,6 +2013,10 @@ class Audio:
     @commands.command(name="yt", pass_context=True, no_pm=True)
     async def yt_search(self, ctx, *, search_terms: str):
         """Searches and plays a video from YouTube"""
+        try:
+            await self.bot.delete_message(ctx.message)
+        except:
+            print("Shit can't deleet!")
         await self.bot.say("Searching...")
         await ctx.invoke(self.play, url_or_search_terms=search_terms)
 

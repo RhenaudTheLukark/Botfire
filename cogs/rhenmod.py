@@ -19,15 +19,27 @@ class RhenMod:
     @commands.command(pass_context=True)
     async def sayHi(self, ctx):
         """Lea! ...why?"""
-        await self.bot.delete_message(ctx.message)
-        await self.bot.say('Hi! Lea!')
+        try:
+            await self.bot.delete_message(ctx.message)
+        except:
+            print("Shit can't deleet!")
+        try:
+            await self.bot.say('Hi! Lea!')
+        except:
+            print("Ah fuck can't talk dammit")
 
 
     @commands.command(pass_context=True)
     async def say(self, ctx, str):
         """Repeats a text, that's about it, really"""
-        await self.bot.delete_message(ctx.message)
-        await self.bot.say(str)
+        try:
+            await self.bot.delete_message(ctx.message)
+        except:
+            print("Shit can't deleet!")
+        try:
+            await self.bot.say(str)
+        except:
+            print("Ah fuck can't talk dammit")
 
 def setup(bot):
     bot.add_cog(RhenMod(bot))
