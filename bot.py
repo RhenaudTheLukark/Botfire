@@ -1,33 +1,57 @@
 from __all_imports import *
 
-class_list = [lib.database.sql_commands(), lib.general.general_commands()]
+class_list = [lib.general.general_commands(), lib.database.sql_commands()]
 lib.globalvars.class_list = class_list
 
 @lib.globalvars.client.event
 async def on_ready():
 	print("------\nBot ready!\n%s\n%s\n------" % (lib.globalvars.client.user.name, lib.globalvars.client.user.id))
+	# await console_input()
+
+async def console_input():
+	while True:
+		if input("").lower() in ["shutdown", "quit", "exit", "leave", "turn off", "shut down", "close"]:
+			await lib.globalvars.client.close()
+			break
 
 @lib.globalvars.client.event
 async def on_message(message):
 	await lib.globalvars.client.wait_until_ready()
 	if message.content.startswith(lib.globalvars.prefix) and message.author is not lib.globalvars.client:
-		for clas in class_list:
-			method_list = [func for func in dir(clas) if callable(getattr(clas, func)) and not func.startswith("__")]
-			parsed = parse(message.content)
-			for func in method_list:
-				if parsed[0] == lib.globalvars.prefix + func:
-					arggs = [message] + parse(message.content)[1:]
-					params = signature(getattr(clas, func)).parameters
-					if len(arggs) > len(params) and len(arggs) > 0:
-						arggs[len(params)-1:len(arggs)] = [" ".join(arggs[len(params)-1:len(arggs)])]
-					await getattr(clas, func)(*arggs)
-					# bonus feature: "good bot"
-					def check(msg):
-						return msg.author != lib.globalvars.client.user and not msg.author.bot
-					msg = await lib.globalvars.client.wait_for_message(check=check, channel=message.channel)
-					if msg.content.lower().startswith("good bot"):
-						await lib.globalvars.client.send_message(message.channel, "Good human")
-					break
+		try:
+			for clas in class_list:
+				method_list = [func for func in dir(clas) if callable(getattr(clas, func)) and not func.startswith("__")]
+				parsed = parse(message.content)
+				for func in method_list:
+					if parsed[0] == lib.globalvars.prefix + func:
+						arggs = [message] + parse(message.content)[1:]
+						params = signature(getattr(clas, func)).parameters
+						if len(arggs) > len(params) and len(arggs) > 0:
+							arggs[len(params)-1:len(arggs)] = [" ".join(arggs[len(params)-1:len(arggs)])]
+						await getattr(clas, func)(*arggs)
+						# bonus feature: "good bot"
+						def check(msg):
+							return msg.author != lib.globalvars.client.user and not msg.author.bot
+						msg = await lib.globalvars.client.wait_for_message(check=check, channel=message.channel)
+						if msg.content.lower().startswith("good bot"):
+							await lib.globalvars.client.send_message(message.channel, "Good human")
+						return
+			raise discord.DiscordException
+		except Exception:
+			# if a command would cause an error (or the command is not found), react with "?" and wait up to 20 seconds
+			try:
+				if not "\U00002753" in [reaction.emoji for reaction in message.reactions]:
+					await lib.globalvars.client.add_reaction(message, "\U00002753")
+					for i in range(20):
+						if message.edited_timestamp != None:
+							break
+						await asyncio.sleep(1)
+					await lib.globalvars.client.remove_reaction(message=message, emoji="\U00002753", member=lib.globalvars.client.user)
+					await on_message(message)
+				else:
+					await lib.globalvars.client.remove_reaction(message=message, emoji="\U00002753", member=lib.globalvars.client.user)
+			except:
+				return
 
 def parse(input):
 	output = []
