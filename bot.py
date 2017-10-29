@@ -36,7 +36,6 @@ async def on_message(message):
 						if msg.content.lower().startswith("good bot"):
 							await lib.globalvars.client.send_message(message.channel, "Good human")
 						return
-			raise discord.DiscordException
 		except Exception:
 			# if a command would cause an error (or the command is not found), react with "?" and wait up to 20 seconds
 			try:
