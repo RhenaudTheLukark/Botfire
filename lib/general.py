@@ -43,7 +43,7 @@ Requires Admin privileges.'''
 						result += getformat(getattr(clas, method))
 			if foundadmincommand:
 				result += "\n\n(* = Admin privileges required)"
-			result += "```\nType `!commands <command>` for specific information on a command."
+			result += "```\nType `" + lib.globalvars.prefix + "commands <command>` for specific information on a command."
 			if lib.globalvars.send_command_list_to_dm:
 				try:
 					await lib.globalvars.client.send_message(message.author, result)
@@ -52,6 +52,8 @@ Requires Admin privileges.'''
 			else:
 				await lib.globalvars.client.send_message(message.channel, result)
 		else:
+			if command.startswith(lib.globalvars.prefix):
+				command = command.split(lib.globalvars.prefix)[1]
 			for clas in classlist:
 				methods = [func for func in dir(clas) if inspect.iscoroutinefunction(getattr(clas, func)) and not func.startswith("__")]
 				if command in methods:
@@ -63,5 +65,5 @@ Requires Admin privileges.'''
 					result += "\n```"
 					await lib.globalvars.client.send_message(message.channel, result)
 					return
-			result = "Command '%s' not found.\nUse `!commands` for a list of all usable commands." % command
+			result = "Command '%s' not found.\nUse `" + lib.globalvars.prefix + "commands` for a list of all usable commands." % command
 			await lib.globalvars.client.send_message(message.channel, result)
