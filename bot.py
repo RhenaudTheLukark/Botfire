@@ -26,8 +26,8 @@ async def on_message(message):
 					if parsed[0] == lib.globalvars.prefix + func:
 						arggs = [message] + parse(message.content)[1:]
 						params = signature(getattr(clas, func)).parameters
-						if len(arggs) > len(params) and len(arggs) > 0:
-							arggs[len(params)-1:len(arggs)] = [" ".join(arggs[len(params)-1:len(arggs)])]
+						#if len(arggs) > len(params) and len(arggs) > 0:
+							#arggs[len(params)-1:len(arggs)] = [" ".join(arggs[len(params)-1:len(arggs)])]
 						await getattr(clas, func)(*arggs)
 						# bonus feature: "good bot"
 						def check(msg):
