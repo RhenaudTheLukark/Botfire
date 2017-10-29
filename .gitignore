@@ -4,4 +4,3 @@ data/token.txt
 data/botfire.sqlite
 *.exe
 *.dll
-__init__.py
