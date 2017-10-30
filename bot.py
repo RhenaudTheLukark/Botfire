@@ -45,7 +45,8 @@ async def on_message(message):
 						if message.edited_timestamp != None:
 							break
 						await asyncio.sleep(1)
-					await lib.globalvars.client.remove_reaction(message=message, emoji="\U00002753", member=lib.globalvars.client.user)
+					if "\U00002753" in [reaction.emoji for reaction in message.reactions if reaction.me]:
+						await lib.globalvars.client.add_reaction(message, "\U00002753")
 					await on_message(message)
 				else:
 					await lib.globalvars.client.remove_reaction(message=message, emoji="\U00002753", member=lib.globalvars.client.user)
