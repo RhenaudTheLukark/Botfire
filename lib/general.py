@@ -5,8 +5,11 @@ import discord
 import asyncio
 import sys
 import inspect
+import datetime
 
 class general_commands:
+	start_time = datetime.datetime.now()
+	
 	'''General Commands'''
 	async def shutdown(self, message):
 		'''Shuts down the bot.
@@ -67,3 +70,12 @@ Requires Admin privileges.'''
 					return
 			result = "Command '%s' not found.\nUse `" + lib.globalvars.prefix + "commands` for a list of all usable commands." % command
 			await lib.globalvars.client.send_message(message.channel, result)
+	
+	async def uptime(self, message):
+		'''Returns the amount of time the bot client has been running.'''
+		difference = datetime.datetime.now() - self.start_time
+		days = difference.days
+		hours = difference.seconds//3600
+		minutes = (difference.seconds//60)%60
+		seconds = difference.seconds%60
+		await lib.globalvars.client.send_message(message.channel, "**%s** has been up for:\n%s days, %s hours, %s minutes, %s seconds" % (lib.globalvars.client.user.name, days, hours, minutes, seconds))

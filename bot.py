@@ -36,8 +36,14 @@ async def on_message(message):
 						if msg.content.lower().startswith("good bot"):
 							await lib.globalvars.client.send_message(message.channel, "Good human")
 						return
-		except Exception:
+		except Exception as e:
 			# if a command would cause an error (or the command is not found), react with "?" and wait up to 20 seconds
+			if lib.globalvars.error_handling_mode == 1:
+				await lib.globalvars.client.send_message(message.channel, "```\n%s\n```" % str(e))
+				return
+			print(e)
+			if lib.globalvars.error_handling_mode == 2:
+				return
 			try:
 				if not "\U00002753" in [reaction.emoji for reaction in message.reactions]:
 					await lib.globalvars.client.add_reaction(message, "\U00002753")
