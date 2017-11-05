@@ -2,9 +2,23 @@ A discord bot for the private server "The Campfire".
 
 &nbsp;
 
+## Setting Up the Bot
+
+1. Just download all the files and extract them to a folder somewhere.
+2. Edit `data/config.py` if you want to. It lets you set a few different things.
+3. Create a file named `data/botfire.sqlite`.
+4. Find an SQLite file editor such as [DB Browser for SQLite](http://sqlitebrowser.org/).
+5. Open the .sqlite file with it and add the following:
+* Table: `Users`
+  * `TEXT` value: `ID`
+  * `INTEGER` value: `playing` (default value: `0`)
+6. Create a file named `token.txt` inside of `data`. Inside of it, paste the token of the Discord account you want the bot to run in.
+
+&nbsp;
+
 ## Adding Libraries
 
-1. Make a copy of either `database.py` or `general.py` in the `libs` folder.
+1. Make a copy of either `libs/database.py` or `libs/general.py` in the `libs` folder.
 2. Open `__all_imports.py` and add `import lib.name_of_your_library_file` to the bottom.
 3. Edit your library file. See **Editing a Library File** for instructions.
 4. Open `bot.py` and add `lib.name_of_your_library_file.name_of_your_class()` to the end of the list on line 3.
@@ -40,19 +54,6 @@ async def name_of_command(self, message, argument1, argument2, kwarg1="Default V
 ```
 if lib.globalvars.isAdmin(message.author):
 ```
-
-&nbsp;
-
-## Setting Up the Bot
-
-1. Just download all the files and extract them to a folder somewhere.
-2. In the folder `data`, create a file named `botfire.sqlite`.
-3. Find an SQLite file editor such as [DB Browser for SQLite](http://sqlitebrowser.org/).
-4. Open the .sqlite file with it and add the following:
-* Table: `Users`
-  * `TEXT` value: `ID`
-  * `INTEGER` value: `playing` (default value: `0`)
-5. Create a file named `token.txt` inside of `data`. Inside of it, paste the token of the Discord account you want the bot to run in.
 
 &nbsp;
 
