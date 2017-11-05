@@ -8,9 +8,10 @@ import inspect
 import datetime
 
 class general_commands:
+	'''General Commands'''
+	
 	start_time = datetime.datetime.now()
 	
-	'''General Commands'''
 	async def shutdown(self, message):
 		'''Shuts down the bot.
 Requires Admin privileges.'''
