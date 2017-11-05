@@ -1,4 +1,4 @@
-A discord bot for the private server "The Campfire"
+A discord bot for the private server "The Campfire".
 
 &nbsp;
 
@@ -28,7 +28,7 @@ async def command_name(self, message):
 Type any extra information for the user here.
 
 If you want the command to show up as admin-only, end the doctype with:
-Requires Admin priveleges.```
+Requires Admin privileges.```
 ```
 * Create each command with `ascync def name_of_command(self, message)`.
   * To give your command arguments, add them after `message`, like so:
