@@ -37,7 +37,7 @@ You need quotes around your full command.'''
 		await lib.globalvars.client.send_message(message.channel, "Success!\n" + result)
 	
 	async def registerUsers(self, message):
-		'''A test function (?).
+		'''A test function.
 Adds all users in the server to the SQLite database.
 Requires Admin privileges.'''
 		if not lib.globalvars.isAdmin(message.author):
@@ -53,8 +53,9 @@ Requires Admin privileges.'''
 		await lib.globalvars.client.send_message(message.channel, "Success: " + str(count) + " users added!")
 	
 	async def removeMe(self, message, mode="deactivate"):
-		'''Attempts to remove you from the SQLite table.
-Type 'full' for the second argument to completely remove yourself from the table (no quotes).
+		'''Makes you a non-active player (you can not participate in the game).
+Type '%!%removeMe full' to completely wipe your data.
+
 WARNING! If you delete your data, it can not be recovered!'''
 		if len([row for row in self.conn.cursor().execute("SELECT * FROM Users WHERE ID='" + message.author.id + "'")]) == 0:
 			await lib.globalvars.client.send_message(message.channel, "You are not an active player!")
@@ -69,8 +70,7 @@ WARNING! If you delete your data, it can not be recovered!'''
 			await lib.globalvars.client.send_message(message.channel, "You are no longer an active player.")
 	
 	async def addMe(self, message):
-		'''If you are already in the table, sets "playing" to 1 for you.
-If you are not in the table, you will be added.'''
+		'''Makes you an active player (you can participate in the game).'''
 		test = len([row for row in self.conn.cursor().execute("SELECT * FROM Users WHERE ID='" + message.author.id + "'")])
 		if test > 1:
 			self.conn.cursor.execute("DELETE FROM Users WHERE ID='" + message.author.id + "'")

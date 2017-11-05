@@ -12,15 +12,18 @@ class general_commands:
 	
 	start_time = datetime.datetime.now()
 	
-	async def shutdown(self, message):
-		'''Shuts down the bot.
+	async def shutdown(self, message, messaging_mode="send message"):
+		'''Shuts down the bot and sends a message.
+If you say '%!%shutdown silent', a message will not be sent.
 Requires Admin privileges.'''
 		if lib.globalvars.isAdmin(message.author):
-			await lib.globalvars.client.send_message(message.channel, "Shutting down, byebye! \N{WAVING HAND SIGN}\N{EMOJI MODIFIER FITZPATRICK TYPE-3}")
+			if messaging_mode.lower() != "silent":
+				await lib.globalvars.client.send_message(message.channel, "Shutting down, byebye! \N{WAVING HAND SIGN}\N{EMOJI MODIFIER FITZPATRICK TYPE-3}")
 			await lib.globalvars.client.close()
 	
 	async def commands(self, message, command=""):
-		'''Shows a list of all commands.'''
+		'''Shows a list of all commands.
+Alternatively, use '%!%commands <command>' to get information on a specific command.'''
 		classlist = [item.__class__ for item in lib.globalvars.class_list]
 		result = "```"
 		def getformat(method):
@@ -39,7 +42,7 @@ Requires Admin privileges.'''
 						result += "\n%s" % clas.__name__
 					result += ":"
 					for method in methods:
-						if getattr(clas, method).__doc__ != None and getattr(clas, method).__doc__.lower().endswith("requires admin privileges."):
+						if getattr(clas, method).__doc__ != None and getattr(clas, method).__doc__.lower().find("requires admin privileges.") > -1:
 							result += "\n *  "
 							foundadmincommand = True
 						else:
@@ -63,7 +66,7 @@ Requires Admin privileges.'''
 				if command in methods:
 					result += "\n" + getformat(getattr(clas, command)) + "\n\n"
 					if getattr(clas, command).__doc__ != None:
-						result += getattr(clas, command).__doc__
+						result += str(getattr(clas, command).__doc__).replace("%!%", lib.globalvars.prefix)
 					else:
 						result += "No description available."
 					result += "\n```"
