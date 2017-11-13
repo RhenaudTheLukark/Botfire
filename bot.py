@@ -39,7 +39,7 @@ async def on_message(message):
 		except Exception as e:
 			# if a command would cause an error (or the command is not found), react with "?" and wait up to 20 seconds
 			if lib.globalvars.error_handling_mode == 1:
-				await lib.globalvars.client.send_message(message.channel, "```\n%s:\n%s\n```" % (str(e.__name__), str(e)))
+				await lib.globalvars.client.send_message(message.channel, "```\n%s\n```" % str(e))
 				return
 			print(e)
 			if lib.globalvars.error_handling_mode == 2:
