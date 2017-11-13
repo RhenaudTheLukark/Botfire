@@ -83,3 +83,24 @@ Alternatively, use '%!%commands <command>' to get information on a specific comm
 		minutes = (difference.seconds//60)%60
 		seconds = difference.seconds%60
 		await lib.globalvars.client.send_message(message.channel, "**%s** has been up for:\n%s days, %s hours, %s minutes, %s seconds" % (lib.globalvars.client.user.name, days, hours, minutes, seconds))
+	
+	async def say(self, message, msg):
+		'''The bot will say whatever you want it to, then attempt to delete your message.
+Be sure to use quotes around your message!
+
+Requires Admin privileges.'''
+		if lib.globalvars.isAdmin(message.author):
+			if msg[0] == "\"":
+				msg = msg[1:]
+			if msg[-1] == "\"":
+				msg = msg[:-1]
+			try:
+				await lib.globalvars.client.delete_message(message)
+			except:
+				pass
+			await lib.globalvars.client.send_typing(message.channel)
+			if len(msg) < 20:
+				await asyncio.sleep(len(msg) * 0.15)
+			else:
+				await asyncio.sleep(3)
+			await lib.globalvars.client.send_message(message.channel, msg)
