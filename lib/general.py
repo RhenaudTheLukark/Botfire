@@ -16,7 +16,7 @@ class general_commands:
 		'''Shuts down the bot and sends a message.
 If you say '%!%shutdown silent', a message will not be sent.
 Requires Admin privileges.'''
-		if lib.globalvars.isAdmin(message.author):
+		if await lib.globalvars.checkAdmin(message):
 			if messaging_mode.lower() != "silent":
 				await lib.globalvars.client.send_message(message.channel, "Shutting down, byebye! \N{WAVING HAND SIGN}\N{EMOJI MODIFIER FITZPATRICK TYPE-3}")
 			await lib.globalvars.client.close()
@@ -89,7 +89,7 @@ Alternatively, use '%!%commands <command>' to get information on a specific comm
 Be sure to use quotes around your message!
 
 Requires Admin privileges.'''
-		if lib.globalvars.isAdmin(message.author):
+		if await lib.globalvars.checkAdmin(message):
 			if msg[0] == "\"":
 				msg = msg[1:]
 			if msg[-1] == "\"":

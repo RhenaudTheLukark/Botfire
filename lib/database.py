@@ -16,13 +16,12 @@ class sql_commands:
 	async def evalSqlOw(self, message, req):
 		'''Evaluates any SQL command.
 Requires Admin privileges.'''
-		if not lib.globalvars.isAdmin(message.author):
-			return
-		result = ""
-		for row in self.conn.cursor().execute(req):
-			result += str(row) + str("\n")
-		self.conn.commit()
-		await lib.globalvars.client.send_message(message.channel, "Success!\n" + result)
+		if await lib.globalvars.checkAdmin(message):
+			result = ""
+			for row in self.conn.cursor().execute(req):
+				result += str(row) + str("\n")
+			self.conn.commit()
+			await lib.globalvars.client.send_message(message.channel, "Success!\n" + result)
 	
 	async def evalSql(self, message, req):
 		'''Evaluates any SQL command beginning with "SELECT".
@@ -40,17 +39,16 @@ You need quotes around your full command.'''
 		'''A test function.
 Adds all users in the server to the SQLite database.
 Requires Admin privileges.'''
-		if not lib.globalvars.isAdmin(message.author):
-			return
-		count = 0
-		for user in lib.globalvars.client.get_all_members():
-			try:
-				self.conn.cursor().execute("INSERT INTO Users(ID, playing) VALUES (" + user.id + ", 0)")
-				count += 1
-			except:
-				next
-		self.conn.commit()
-		await lib.globalvars.client.send_message(message.channel, "Success: " + str(count) + " users added!")
+		if await lib.globalvars.checkAdmin(message):
+			count = 0
+			for user in lib.globalvars.client.get_all_members():
+				try:
+					self.conn.cursor().execute("INSERT INTO Users(ID, playing) VALUES (" + user.id + ", 0)")
+					count += 1
+				except:
+					next
+			self.conn.commit()
+			await lib.globalvars.client.send_message(message.channel, "Success: " + str(count) + " users added!")
 	
 	async def removeMe(self, message, mode="deactivate"):
 		'''Makes you a non-active player (you can not participate in the game).

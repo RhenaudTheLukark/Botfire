@@ -50,9 +50,9 @@ Requires Admin privileges.```
 async def name_of_command(self, message, argument1, argument2, kwarg1="Default Value")
 ```
 * To access the bot client, use `lib.globalvars.client`.
-* To check if the command caller has bot priveleges, use this:
+* To make a command require admin privileges, encase all of its code in the following `if` statement:
 ```
-if lib.globalvars.isAdmin(message.author):
+if lib.globalvars.checkAdmin(message):
 ```
 
 &nbsp;
